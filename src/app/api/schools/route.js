@@ -14,10 +14,10 @@ export async function GET(request) {
 
 
 export async function POST(request) {
-    const { title, body} = await request.json();
+    const { name, address,city,state,contact,email} = await request.json();
     const updateUsers = await query({
-        query: "INSERT INTO schools (title,body) VALUES (?, ?)",
-        values: [title, body],
+        query: "INSERT INTO schools (name, address,city,state,contact,email) VALUES (?, ?, ?, ?, ?, ?)",
+        values: [name, address,city,state,contact,email],
     });
     const result = updateUsers.affectedRows;
     let message = "";
@@ -27,12 +27,12 @@ export async function POST(request) {
         message = "error";
     }
     const school = {
-        title: title,
+        name: name,
     };
     return new Response(JSON.stringify({
         message: message,
         status: 200,
-        school: title
+        school: name
     }));
 }
 

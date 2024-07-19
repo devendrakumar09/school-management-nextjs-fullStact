@@ -1,53 +1,172 @@
-import NewschoolFormUI from '@/app/_component/school/NewschoolFormUI'
-import Link from 'next/link'
+'use client';
+  
+import { useState } from "react";
 import React from 'react'
 
-const NewSchool = () => {
-    return (
-        <section className=" py-12 pt-1 text-gray-800 sm:py-8">
-            <div className="mx-auto flex max-w-md flex-col rounded-lg lg:max-w-screen-xl lg:flex-row lg:px-32">
-                <div className="max-w-2xl px-4 lg:pr-24">
-                    <Link href={'/schools'} className="mb-2 text-blue-600 ">Go to the School Page</Link>
-                    <h3 className="mb-5 text-3xl font-semibold">Get Custom Pricing</h3>
-                    <p className="mb-16 text-lg text-gray-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consectetur, corrupti asperiores voluptatum labore eligendi quisquam. Id quae, laboriosam saepe facere ea asperiores!</p>
-                    
+
+export default function NewSchool () {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [address, setAddress] = useState('');
+    const [city, setCity] = useState('');
+    const [state, setState] = useState('');
+    const [contact, setContact] = useState('');
+    const [image, setImage] = useState();
+
+    const submitData = async () => {
+        // console.log(name+email+address+city+state+contact);
         
-                    <div className="mb-5 flex font-medium">
-                        <div className="mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-7 w-7 text-blue-500">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m-6 3.75l3 3m0 0l3-3m-3 3V1.5m6 9h.75a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25h-7.5a2.25 2.25 0 01-2.25-2.25v-.75" />
-                            </svg>
+        
+        let response = await fetch('http://localhost:3000/api/schools',{
+          method:"POST",
+          body:JSON.stringify({
+            name:name,
+            email:email,
+            address:address,           
+            city:city, 
+            state:state, 
+            contact:contact, 
+            image:image, 
+          }),
+          headers:{
+            'Content-type': 'application/json'
+          }
+        })
+        response = await response.json()  
+        alert(JSON.stringify(response))
+
+        
+
+        setName('');
+        setEmail('');
+        setAddress('');
+        setCity('');
+        setState('');
+        setContact('');
+    }
+    
+
+    return (
+         <div className="flex items-center justify-center lg:p-12 p-4 lg:pt-0">
+            <div className="mx-auto w-full max-w-[850px] lg:shadow lg:p-10">
+                
+                    <div className="-mx-3 md:flex mb-6">
+                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                School Name
+                            </label>
+                            <input 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" 
+                                id="school-name" 
+                                type="text" 
+                                placeholder="School Name..." 
+                                value={name}
+                                onChange={(e)=>setName(e.target.value)}
+                            />
+                                {/* <p className="text-red text-xs italic">Please fill out this field.</p> */}
                         </div>
-                        <div className="">
-                            <p className="mb-2">Monthly 400k Image Downloads</p>
-                            <span className="font-normal text-gray-600">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum porro molestias quaerat maxime modi.</span>
+                        <div className="md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                Email
+                            </label>
+                            <input 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                                id="grid-last-name" 
+                                type="text" 
+                                placeholder="Email..." 
+                                value={email}
+                                onChange={(e)=>setEmail(e.target.value)}
+                            />
                         </div>
                     </div>
-                    <div className="mb-5 flex font-medium">
-                        <div className="mr-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="h-7 w-7 text-blue-500">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
-                            </svg>
-                        </div>
-                        <div className="">
-                            <p className="mb-2">Stay Syned to the Database</p>
-                            <span className="font-normal text-gray-600">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum porro molestias quaerat maxime modi.</span>
+
+                    <div className="-mx-3 md:flex mb-6">
+                        <div className="md:w-full px-3">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                Full Address
+                            </label>
+                            
+                            <textarea 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" 
+                                id="grid-password" 
+                                type="password" 
+                                placeholder="Full Address" 
+                                value={address}
+                                onChange={(e)=>setAddress(e.target.value)}
+                            >
+                            </textarea>                           
                         </div>
                     </div>
-                   
-                </div>
-                <div className="border border-gray-100 shadow-gray-500/20 mt-8 mb-8 shadow-sm sm:rounded-lg sm:shadow-lg lg:mt-0 bg-blue-600 text-white">
-                    <div className="relative border-b border-gray-300 p-4 py-8 sm:px-8">
-                        <h3 className="mb-1 inline-block text-3xl font-medium"><span className="mr-4">Create School</span></h3>
-                        <p className="">Contact us for custom use cases</p>
+
+                    <div className="-mx-3 md:flex mb-2">
+                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                City
+                            </label>
+                            <input 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" 
+                                id="grid-city" 
+                                type="text" 
+                                placeholder="City..."          
+                                value={city}
+                                onChange={(e)=>setCity(e.target.value)}               
+                            />
+                        </div>
+                        <div className="md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                State
+                            </label>                    
+                            <input 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-4" 
+                                id="grid-city" 
+                                type="text" 
+                                placeholder="State..." 
+                                value={state}
+                                onChange={(e)=>setState(e.target.value)}
+                            />                                        
+                        </div>
+                        <div className="md:w-1/2 px-3">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                Contact
+                            </label>
+                            <input 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-4" 
+                                id="grid-zip" 
+                                type="text" 
+                                placeholder="xxxxx xxxxx" 
+                                value={contact}
+                                onChange={(e)=>setContact(e.target.value)}
+                            />
+                        </div>
                     </div>
-                    <NewschoolFormUI />
-                </div>
+
+                    <div className="-mx-3 md:flex mb-6">
+                        <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" >
+                                image
+                            </label>
+                            <input 
+                                className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-1"                                 
+                                type="file" 
+                                name="image"
+                                value={image}
+                                onChange={(e)=>setImage(e.target.files?.[0])}
+                            />
+
+                        </div>                    
+                    </div>
+
+                    <button 
+                        className="w-full rounded-lg borde border-blue-950 bg-blue-950 p-3 text-center font-medium text-white outline-none transition focus:ring hover:border-blue-900 hover:bg-blue-900 hover:text-white"
+                        // onClick={submitData}
+                        type="submit"
+                        onClick={submitData}
+                    >
+                        Save
+                    </button>
+                
             </div>
-        </section>
-
-
+        </div>
     )
 }
-
-export default NewSchool
+ 
